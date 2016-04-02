@@ -1,0 +1,67 @@
+#include <iostream>
+#define ROW 6
+#define COL 5
+using namespace std;
+
+void printMatrix(int M[ROW][COL]){
+	
+	for (int i =0; i <ROW; i++){
+		for (int j =0; j <COL; j++)
+			cout << M[i][j] << "  ";
+		cout << endl;
+	}
+}
+
+int min(int a, int b, int c)
+{
+	int m = a;
+	if (m > b) 
+		m = b;
+	if (m > c) 
+		m = c;
+	return m;
+}
+
+void printMaxSubSquare (int M[ROW][COL]){
+	
+	int sol[ROW][COL];
+	int max=0, max_i, max_j;
+	for(int i=0; i <ROW;i++)
+		sol[i][0] = M [i][0];
+	for(int i=0; i <COL;i++)
+		sol[0][i] = M [0][i];
+	for(int i=1; i <ROW;i++) {
+		for(int j=1; j <COL;j++){
+			if ( M[i][j] == 1){
+				sol[i][j] = min ( sol[i-1][j-1], sol[i][j-1], sol[i-1][j]) +1;
+				if (sol[i][j] > max){
+					max = sol[i][j];
+					max_i =i;
+					max_j = j;
+				}
+			} else
+				sol[i][j] =0;
+		}
+	}
+	
+	//printMatrix(sol);
+	for (int i = max_i; i > max_i - max; i--){
+		for(int j = max_j; j > max_j - max; j--)
+			cout << M[i][j]<< "  ";
+		cout << endl;
+	}
+	
+}
+int main(){
+	
+	int M[ROW][COL] =  {{0, 1, 1, 0, 1}, 
+						{1, 1, 0, 1, 0}, 
+						{0, 1, 1, 1, 0},
+						{1, 1, 1, 1, 0},
+						{1, 1, 1, 1, 1},
+						{0, 0, 0, 0, 0}};
+                
+	printMaxSubSquare(M);
+	return 0;
+	
+}
